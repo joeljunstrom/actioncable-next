@@ -163,3 +163,7 @@ module ActionCable
 end
 
 ActiveSupport.run_load_hooks(:action_cable_connection, ActionCable::Connection::Base)
+
+# Hack to make sure legacy extensions do not changes the visibility of API methods
+# (see https://github.com/anycable/actioncable-next/issues/7)
+ActionCable::Connection::Base.send :public, :handle_open, :handle_close, :handle_channel_command, :transmit, :close
