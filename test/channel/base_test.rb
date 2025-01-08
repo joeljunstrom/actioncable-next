@@ -109,7 +109,7 @@ class ActionCable::Channel::BaseTest < ActionCable::TestCase
     @connection.server.config.filter_parameters << :password
     data = { password: "password", foo: "foo" }
 
-    assert_logged(':password=>"[FILTERED]"') do
+    assert_logged(/password(: |=>)"\[FILTERED\]"/) do
       @channel.perform_action data
     end
   end

@@ -35,12 +35,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        ruby_version: ["3.3"]
         rails_version: ["~> 7.0.0", "~> 7.0", "~> 8.0.0"]
+        include:
+          - ruby_version: "3.4"
+            rails_version: "~> 8.0.0"
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3
+          ruby-version: ${{ matrix.ruby_version }}
           bundler-cache: true
       - name: Create a PostgreSQL database
         env:
