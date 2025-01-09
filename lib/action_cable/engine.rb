@@ -94,5 +94,11 @@ module ActionCable
         end
       end
     end
+
+    config.after_initialize do
+      ActiveSupport.on_load(:action_cable_connection) do
+        ActionCable::Connection::Base.__restore_visibility__
+      end
+    end
   end
 end
