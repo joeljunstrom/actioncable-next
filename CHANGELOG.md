@@ -2,6 +2,10 @@
 
 ## main
 
+## 0.1.2
+
+- Added a hack to prevent third-party extensions from changing the methods visibility.
+
 ## 0.1.1
 
 - Added RSpec patch.
