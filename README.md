@@ -34,3 +34,17 @@ require "action_cable/next/rspec"
 #### `ActionCable.server.config.fastlane_broadcasts_enabled = true`
 
 This option allows you to enable the _fast lane_ for broadcasting messages. When enabled, messages sent via `ActionCable.server.broadcast` are only decoded-encoded from/to JSON once per channel identifier and not for every connected client. This significantly reduces the broadcasting latency (up to 2x faster).
+
+#### `Connection#broadcast`
+
+You can now broadcast message from connection or channel instances using the connection `#broadcast` method. For example:
+
+```ruby
+class TestChannel < ActionCable::Channel::Base
+  def notify_all(data)
+    connection.broadcast("testing-#{test_id}", data)
+  end
+end
+```
+
+The purpose of this interface is to avoid direct usage of `server` or `ActionCable.server` in channels code.

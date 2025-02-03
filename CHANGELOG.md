@@ -2,6 +2,8 @@
 
 ## main
 
+- Add `Connection#broadcast` as an interface for broadcasting from channels.
+
 - Add `config.fastlane_broadcasts_enabled` to opt-in for optimized broadcasts (no double JSON encoding).
 
 ## 0.1.2
