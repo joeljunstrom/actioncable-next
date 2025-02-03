@@ -20,7 +20,11 @@ class PostgresqlAdapterTest < ActionCable::TestCase
       database_config.update local_config if local_config
     end
 
-    ActiveRecord::Base.establish_connection database_config
+    begin
+      ActiveRecord::Base.establish_connection database_config
+    rescue LoadError
+      skip "Missing pg gem"
+    end
 
     begin
       ActiveRecord::Base.lease_connection.connect!

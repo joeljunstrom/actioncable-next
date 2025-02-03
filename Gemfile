@@ -40,7 +40,7 @@ gem "pg", require: false if ENV["CI"] || ENV["DATABASE_URL"]
 
 gem "websocket-client-simple", github: "matthewd/websocket-client-simple", branch: "close-race", require: false
 
-rails_version = ENV.fetch("RAILS_VERSION", "~> 7.0")
+rails_version = ENV.fetch("RAILS_VERSION", "~> 8.0")
 
 gem "activerecord", rails_version
 gem "actionpack", rails_version
