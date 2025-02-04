@@ -2,6 +2,8 @@
 
 ## main
 
+- Performance: store connections in a Hash, not an Array.
+
 - Add `Connection#broadcast` as an interface for broadcasting from channels.
 
 - Add `config.fastlane_broadcasts_enabled` to opt-in for optimized broadcasts (no double JSON encoding).
