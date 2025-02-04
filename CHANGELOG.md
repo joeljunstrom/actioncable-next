@@ -2,6 +2,8 @@
 
 ## main
 
+## 0.2.0
+
 - Performance: store connections in a Hash, not an Array.
 
 - Add `Connection#broadcast` as an interface for broadcasting from channels.
