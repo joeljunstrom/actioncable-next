@@ -85,6 +85,18 @@ class ActionCable::Channel::BaseTest < ActionCable::TestCase
       end
   end
 
+  class CallbackedChannel < ActionCable::Channel::Base
+    attr_reader :subscribed_called
+
+    before_subscribe do
+      reject
+    end
+
+    def subscribed
+      @subscribed_called = true
+    end
+  end
+
   setup do
     @user = User.new "lifo"
     @connection = TestSocket.new(@user)
@@ -99,6 +111,17 @@ class ActionCable::Channel::BaseTest < ActionCable::TestCase
   test "on subscribe callbacks" do
     @channel.subscribe_to_channel
     assert @channel.subscribed
+  end
+
+  test "when rejected in before_subscribe" do
+    subscriptions = Minitest::Mock.new
+    subscriptions.expect(:remove_subscription, CallbackedChannel, [CallbackedChannel])
+
+    @connection.stub(:subscriptions, subscriptions) do
+      @channel = CallbackedChannel.new @connection, "{id: 1}", id: 1
+      @channel.subscribe_to_channel
+      refute @channel.subscribed_called
+    end
   end
 
   test "channel params" do

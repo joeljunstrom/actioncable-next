@@ -2,6 +2,8 @@
 
 ## main
 
+- Do not call `#subscribed` when subscription is rejected in a `before_subscribe` callback.
+
 ## 0.2.0
 
 - Performance: store connections in a Hash, not an Array.
