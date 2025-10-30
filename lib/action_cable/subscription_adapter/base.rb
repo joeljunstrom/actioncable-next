@@ -32,7 +32,8 @@ module ActionCable
       end
 
       def identifier
-        config.cable[:id] ||= "ActionCable-PID-#{$$}"
+        config.cable[:id] = "ActionCable-PID-#{$$}" unless config.cable.key?(:id)
+        config.cable[:id]
       end
     end
   end

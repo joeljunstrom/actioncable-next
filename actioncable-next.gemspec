@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.summary     = "Next-gen version of Action Cable"
   s.description = "Next-gen version of Action Cable"
 
-  s.required_ruby_version = ">= 3.1.0"
+  s.required_ruby_version = ">= 3.2.0"
 
   s.license = "MIT"
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # TODO: Uncomment in rails/rails
-# require "active_support/testing/strict_warnings"
+# require_relative "../../tools/strict_warnings"
 require "action_cable"
 require "active_support/testing/autorun"
 require "active_support/testing/method_call_assertions"
@@ -18,6 +18,11 @@ ActionCable.server.config.logger = Logger.new(nil)
 
 class ActionCable::TestCase < ActiveSupport::TestCase
   include ActiveSupport::Testing::MethodCallAssertions
+  # TODO: Remove in rails/rails
+  unless defined?(ActiveSupport::Testing::NotificationAssertions)
+    require_relative "compatibility/notification_assertions"
+    include ActiveSupport::Testing::NotificationAssertions
+  end
 
   def wait_for_async
     wait_for_executor Concurrent.global_io_executor

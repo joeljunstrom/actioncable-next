@@ -88,6 +88,8 @@ module ActionCable
       # callback. Defaults to `coder: nil` which does no decoding, passes raw
       # messages.
       def stream_from(broadcasting, callback = nil, coder: nil, &block)
+        return if unsubscribed?
+
         broadcasting = String(broadcasting)
 
         # Don't send the confirmation until pubsub#subscribe is successful
@@ -104,15 +106,15 @@ module ActionCable
         end)
       end
 
-      # Start streaming the pubsub queue for the `model` in this channel. Optionally,
+      # Start streaming the pubsub queue for the `broadcastables` in this channel. Optionally,
       # you can pass a `callback` that'll be used instead of the default of just
       # transmitting the updates straight to the subscriber.
       #
       # Pass `coder: ActiveSupport::JSON` to decode messages as JSON before passing to
       # the callback. Defaults to `coder: nil` which does no decoding, passes raw
       # messages.
-      def stream_for(model, ...)
-        stream_from(broadcasting_for(model), ...)
+      def stream_for(broadcastables, ...)
+        stream_from(broadcasting_for(broadcastables), ...)
       end
 
       # Unsubscribes streams from the named `broadcasting`.

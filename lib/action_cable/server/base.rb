@@ -10,7 +10,7 @@ module ActionCable
     class ThreadedExecutor # :nodoc:
       def initialize(max_size: 10)
         @executor = Concurrent::ThreadPoolExecutor.new(
-          name: "ActionCable server",
+          name: "ActionCable-streamer",
           min_threads: 1,
           max_threads: max_size,
           max_queue: 0,

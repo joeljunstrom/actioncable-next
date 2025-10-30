@@ -2,6 +2,8 @@
 
 ## main
 
+- Sync with upstream (Rails 8.1.1).
+
 - Do not call `#subscribed` when subscription is rejected in a `before_subscribe` callback.
 
 ## 0.2.0
