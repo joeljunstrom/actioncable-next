@@ -38,7 +38,7 @@ gem "redis-namespace"
 
 gem "pg", require: false if ENV["CI"] || ENV["DATABASE_URL"]
 
-gem "websocket-client-simple", github: "matthewd/websocket-client-simple", branch: "close-race", require: false
+gem "websocket-client-simple", require: false
 
 rails_version = ENV.fetch("RAILS_VERSION", "~> 8.0")
 

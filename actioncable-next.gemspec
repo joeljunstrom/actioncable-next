@@ -27,8 +27,8 @@ Gem::Specification.new do |s|
     "rubygems_mfa_required" => "true",
   }
 
-  s.add_dependency "activesupport", ">= 7.0", "<= 8.1"
-  s.add_dependency "actionpack", ">= 7.0", "<= 8.1"
+  s.add_dependency "activesupport", ">= 7.0", "<= 8.2"
+  s.add_dependency "actionpack", ">= 7.0", "<= 8.2"
 
   s.add_dependency "nio4r",            "~> 2.0"
   s.add_dependency "websocket-driver", ">= 0.6.1"
