@@ -238,6 +238,15 @@ module ActionCable
           subscription.perform_action(data.stringify_keys.merge("action" => action.to_s))
         end
 
+        # Advance the virtual clock used by `periodically` timers.
+        #
+        #     subscribe
+        #     advance_time 5.seconds
+        #     assert_equal 1, subscription.tick_count
+        def advance_time(seconds)
+          testserver.advance_time(seconds)
+        end
+
         # Returns messages transmitted into channel
         def transmissions
           # Return only directly sent message (via #transmit)
