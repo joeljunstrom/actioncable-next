@@ -102,6 +102,10 @@ module ActionCable
       end
     end
 
+    class TestTimer
+      def shutdown; end
+    end
+
     # TestServer provides test pub/sub and executor implementations
     class TestServer
       attr_reader :streams, :config
@@ -118,8 +122,7 @@ module ActionCable
 
       # Inline async calls
       def post(&work) = work.call
-      # We don't support timers in unit tests yet
-      def timer(_every) = nil
+      def timer(_every) = TestTimer.new
 
       #== Pub/sub interface ==
       def subscribe(stream, callback, success_callback = nil)

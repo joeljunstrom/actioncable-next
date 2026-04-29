@@ -95,6 +95,26 @@ class RejectionTestChannelTest < ActionCable::Channel::TestCase
   end
 end
 
+class RejectingPeriodicTimerChannel < ActionCable::Channel::Base
+  periodically :tick, every: 1
+
+  def subscribed
+    reject
+  end
+
+  private
+    def tick; end
+end
+
+class RejectingPeriodicTimerChannelTest < ActionCable::Channel::TestCase
+  tests RejectingPeriodicTimerChannel
+
+  def test_reject_does_not_crash_when_periodic_timer_is_registered
+    assert_nothing_raised { subscribe }
+    assert_predicate subscription, :rejected?
+  end
+end
+
 class StreamsTestChannel < ActionCable::Channel::Base
   def subscribed
     stream_from "test_#{params[:id] || 0}"
