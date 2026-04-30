@@ -3,7 +3,11 @@
 # TODO: Uncomment in rails/rails
 # require_relative "../../tools/strict_warnings"
 require "action_cable"
-require "active_support/testing/autorun"
+# TODO: we don't have minitest/rails_plugin here
+# require "active_support/testing/autorun"
+require "minitest"
+Minitest.autorun
+
 require "active_support/testing/method_call_assertions"
 
 require "puma"

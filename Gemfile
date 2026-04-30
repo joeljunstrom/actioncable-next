@@ -4,6 +4,7 @@ source "https://rubygems.org"
 gemspec
 
 gem "minitest"
+gem "minitest-mock"
 
 # We need a newish Rake since Active Job sets its test tasks' descriptions.
 gem "rake", ">= 13"
