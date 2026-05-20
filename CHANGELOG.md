@@ -2,6 +2,10 @@
 
 ## main
 
+## 0.3.3
+
+- Sync with upstream (Rails 8.2.0.alpha).
+
 ## 0.3.2
 
 - Add `#advance_time` test helper to channels to test periodic timers.
