@@ -135,6 +135,7 @@ module ActionCable
               public_instance_methods(false) -
               # Except the internal methods
               internal_methods).uniq
+
             methods.map!(&:name)
             methods.to_set
           end
@@ -148,14 +149,14 @@ module ActionCable
             @action_methods = nil
           end
 
-          def internal_methods
-            super
-          end
-
           # Refresh the cached action_methods when a new action_method is added.
           def method_added(name) # :doc:
             super
             clear_action_methods!
+          end
+
+          def internal_methods
+            super
           end
       end
 

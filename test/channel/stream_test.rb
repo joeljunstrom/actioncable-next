@@ -253,7 +253,7 @@ module ActionCable::StreamTests
       threads = []
       run_in_eventmachine do
         connection = Connection.new(server, socket)
-        server.pubsub.unsubscribe_latency = 0.1
+        connection.pubsub.unsubscribe_latency = 0.1
 
         channel = ChatChannel.new connection, "{id: 1}", id: 1
         channel.subscribe_to_channel

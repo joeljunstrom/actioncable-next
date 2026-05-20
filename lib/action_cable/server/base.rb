@@ -8,9 +8,9 @@ module ActionCable
   module Server
     # A wrapper over ConcurrentRuby::ThreadPoolExecutor and Concurrent::TimerTask
     class ThreadedExecutor # :nodoc:
-      def initialize(max_size: 10)
+      def initialize(max_size: 10, name: "server")
         @executor = Concurrent::ThreadPoolExecutor.new(
-          name: "ActionCable-streamer",
+          name: "ActionCable-#{name}",
           min_threads: 1,
           max_threads: max_size,
           max_queue: 0,
@@ -121,7 +121,7 @@ module ActionCable
 
       # Executor is used by various actions within Action Cable (e.g., pub/sub operations) to run code asynchronously.
       def executor
-        @executor || @mutex.synchronize { @executor ||= ThreadedExecutor.new(max_size: config.executor_pool_size) }
+        @executor || @mutex.synchronize { @executor ||= ThreadedExecutor.new(max_size: config.executor_pool_size, name: "streamer") }
       end
 
       # Adapter used for all streams/broadcasting.
@@ -146,8 +146,9 @@ module ActionCable
       def allow_request_origin?(env)
         return true if config.disable_request_forgery_protection
 
-        proto = Rack::Request.new(env).ssl? ? "https" : "http"
-        if config.allow_same_origin_as_host && env["HTTP_ORIGIN"] == "#{proto}://#{env['HTTP_HOST']}"
+        request = ActionDispatch::Request.new(env)
+        proto = request.ssl? ? "https" : "http"
+        if config.allow_same_origin_as_host && env["HTTP_ORIGIN"] == "#{proto}://#{request.host_with_port}"
           true
         elsif Array(config.allowed_request_origins).any? { |allowed_origin|  allowed_origin === env["HTTP_ORIGIN"] }
           true

@@ -4,6 +4,12 @@
 
 require "active_support/rescuable"
 
+begin
+  require "active_support/inspect_backport"
+rescue LoadError
+  # ActiveSupport::InspectBackport ships only in Rails 8.2+; older Rails keeps the gem's custom #inspect.
+end
+
 module ActionCable
   module Connection
     # # Action Cable Connection Base
@@ -147,11 +153,19 @@ module ActionCable
         transmit type: ActionCable::INTERNAL[:message_types][:ping], message: Time.now.to_i
       end
 
-      def inspect # :nodoc:
-        "#<#{self.class.name}:#{'%#016x' % (object_id << 1)}>"
+      if defined?(ActiveSupport::InspectBackport)
+        ActiveSupport::InspectBackport.apply(self)
+      else
+        def inspect # :nodoc:
+          "#<#{self.class.name}:#{'%#016x' % (object_id << 1)}>"
+        end
       end
 
       private
+        def instance_variables_to_inspect # :nodoc:
+          [].freeze
+        end
+
         # The cookies of the request that initiated the WebSocket connection. Useful for performing authorization checks.
         def cookies # :doc:
           request.cookie_jar

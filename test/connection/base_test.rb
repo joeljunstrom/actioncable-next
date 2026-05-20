@@ -75,6 +75,11 @@ class ActionCable::Connection::BaseTest < ActionCable::TestCase
     assert_equal({ "message" => "hello" }, messages.first)
   end
 
+  test "inspect does not show internals" do
+    connection = open_connection
+    assert_match(/\A#<ActionCable::Connection::BaseTest::Connection:0x[0-9a-f]+>\z/, connection.inspect)
+  end
+
   private
     def open_connection
       server = TestServer.new

@@ -2,6 +2,12 @@
 
 require "action_dispatch"
 
+begin
+  require "active_support/inspect_backport"
+rescue LoadError
+  # ActiveSupport::InspectBackport ships only in Rails 8.2+; older Rails keeps the gem's custom #inspect.
+end
+
 module ActionCable
   module Server
     # This class encapsulates all the low-level logic of working with the underlying WebSocket conenctions
@@ -108,11 +114,19 @@ module ActionCable
         send_async :handle_close
       end
 
-      def inspect # :nodoc:
-        "#<#{self.class.name}:#{'%#016x' % (object_id << 1)}>"
+      if defined?(ActiveSupport::InspectBackport)
+        ActiveSupport::InspectBackport.apply(self)
+      else
+        def inspect # :nodoc:
+          "#<#{self.class.name}:#{'%#016x' % (object_id << 1)}>"
+        end
       end
 
       private
+        def instance_variables_to_inspect # :nodoc:
+          [].freeze
+        end
+
         attr_reader :websocket
         attr_reader :message_buffer
 
