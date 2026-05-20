@@ -11,7 +11,7 @@ class PostgresqlAdapterTest < ActionCable::TestCase
   include ChannelPrefixTest
 
   def setup
-    database_config = { "adapter" => "postgresql", "database" => "activerecord_unittest" }
+    database_config = { "adapter" => "postgresql", "database" => "activerecord_unittest", "url" => ENV["DATABASE_URL"] }
     ar_tests = File.expand_path("../../../activerecord/test", __dir__)
     if Dir.exist?(ar_tests)
       require File.join(ar_tests, "config")
@@ -28,9 +28,9 @@ class PostgresqlAdapterTest < ActionCable::TestCase
 
     begin
       ActiveRecord::Base.lease_connection.connect!
-    rescue
+    rescue => e
       @rx_adapter = @tx_adapter = nil
-      skip "Couldn't connect to PostgreSQL: #{database_config.inspect}"
+      skip "Couldn't connect to PostgreSQL: #{database_config.inspect}: #{e.message}"
     end
 
     super
