@@ -72,7 +72,6 @@ class ActionCable::Connection::BaseTest < ActionCable::TestCase
     # prior restart call), so that transmitting the disconnect message raises.
     socket.stub(:transmit, ->(*) { raise ClosedQueueError, "queue closed" }) do
       assert_called(socket, :close) do
-        # Must not propagate the error — socket.close must still be reached via ensure.
         connection.close(reason: "server_restart")
       end
     end

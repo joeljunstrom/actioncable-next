@@ -2,6 +2,8 @@
 
 ## main
 
+- Tolerate `#transmit` errors on `socket.close`.
+
 ## 0.3.2
 
 - Add `#advance_time` test helper to channels to test periodic timers.

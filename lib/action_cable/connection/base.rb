@@ -133,12 +133,7 @@ module ActionCable
           type: ActionCable::INTERNAL[:message_types][:disconnect],
           reason: reason,
           reconnect: reconnect
-        )
-      rescue => error
-        # Ignore errors when transmitting the disconnect message, e.g. if the
-        # socket is already closed.
-        logger.error("Failed to transmit disconnect message: #{error.message}")
-      ensure
+        ) rescue nil
         socket.close
       end
 
