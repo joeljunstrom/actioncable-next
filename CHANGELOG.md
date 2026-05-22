@@ -2,6 +2,8 @@
 
 ## main
 
+## 0.3.4
+
 - Tolerate `#transmit` errors on `socket.close`.
 
 ## 0.3.3
