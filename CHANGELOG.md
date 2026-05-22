@@ -2,6 +2,8 @@
 
 ## main
 
+- Tolerate `#transmit` errors on `socket.close`.
+
 ## 0.3.3
 
 - Sync with upstream (Rails 8.2.0.alpha).

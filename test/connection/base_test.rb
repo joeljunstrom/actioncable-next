@@ -64,6 +64,19 @@ class ActionCable::Connection::BaseTest < ActionCable::TestCase
     end
   end
 
+  test "socket is closed even when transmit raises during close" do
+    connection = open_connection
+    socket = connection.socket
+
+    # Simulate a socket whose output queue has already been closed (e.g. after a
+    # prior restart call), so that transmitting the disconnect message raises.
+    socket.stub(:transmit, ->(*) { raise ClosedQueueError, "queue closed" }) do
+      assert_called(socket, :close) do
+        connection.close(reason: "server_restart")
+      end
+    end
+  end
+
   test "#broadcast" do
     connection = Connection.new(ActionCable.server, ActionCable::Server::Socket.new(ActionCable.server, {}))
 
